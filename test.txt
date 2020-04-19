@@ -1,0 +1,4 @@
+echo 'Hello guy'
+sleep 2 && echo 'after sleep'
+echo 'bob is great'
+ls -al
