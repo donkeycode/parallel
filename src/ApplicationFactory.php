@@ -6,7 +6,7 @@ use Symfony\Component\Console\Application;
 
 class ApplicationFactory
 {
-    public function create() : Application
+    public static function create() : Application
     {
         $application = new Application();
         $application->add(new Command\RunCommand());
