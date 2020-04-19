@@ -1,5 +1,11 @@
 # Run php commands in parallel
 
+Installation 
+
+``` bash
+wget github url a ajouter
+```
+
 Basic usage
 
 ``` bash
