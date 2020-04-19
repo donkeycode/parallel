@@ -1,12 +1,24 @@
 # Run php commands in parallel
 
-Installation 
+[![Build Status](https://travis-ci.org/donkeycode/parallel.svg?branch=master)](https://travis-ci.org/donkeycode/parallel)
+
+## Installation 
 
 ``` bash
-wget github url a ajouter
+URL=$(curl --silent "https://api.github.com/repos/donkeycode/parallel/releases/latest"  | grep browser_download_url | sed -E 's/.*"([^"]+)".*/\1/')
+wget $URL
+chmod +x parallel.phar
 ```
 
-Basic usage
+Optionaly can be moved to `/usr/local/bin`
+
+``` bash
+mv parallel.phar /usr/local/bin/parallel
+```
+
+Like that you can use everywhere `cat commands.txt | parallel`
+
+## Basic usage
 
 ``` bash
 cat commands.txt | php parallel.phar
