@@ -13,6 +13,8 @@ install:
 script: composer test
 
 before_deploy:
+    - composer install --no-dev
+    - composer dump -o
     - composer compile
 
 deploy:
