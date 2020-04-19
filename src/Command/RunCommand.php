@@ -19,7 +19,7 @@ class RunCommand extends Command
     {
         $this
             ->setDescription('Run multi-threaded process')
-            ->addArgument('commands', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'The commands list')
+            ->addArgument('commands', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The commands list')
             ->addOption('threads', 't', InputOption::VALUE_REQUIRED, 'Number of threads to run', 10)
             ;
     }
