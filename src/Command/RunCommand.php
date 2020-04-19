@@ -24,12 +24,6 @@ class RunCommand extends Command
             ;
     }
 
-    public function interact(InputInterface $input, OutputInterface $output)
-    {
-        $this->defineCommands($input, $output);
-    }
-
-
     private function defineCommands(InputInterface $input, OutputInterface $output)
     {
         if ($input->getArgument('commands')) {
@@ -50,6 +44,8 @@ class RunCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {   
+        $this->defineCommands($input, $output);
+
         $processQueue = QueueManager::buildQueueWithCommands($input->getArgument('commands'));
         $processLimit = $input->getOption('threads');
 
