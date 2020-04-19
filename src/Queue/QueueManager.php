@@ -7,7 +7,7 @@ use Parallel\Exception\MissingCommandsException;
 
 class QueueManager
 {
-    public function buildQueueWithCommands(array $commands) : array
+    public static function buildQueueWithCommands(array $commands) : array
     {
         $processQueue = array_map(function ($command) {
             $command = trim($command);
