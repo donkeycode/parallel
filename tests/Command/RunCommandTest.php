@@ -17,7 +17,7 @@ class RunCommandTest extends TestCase
         "echo 'bob is great'",
     ];
 
-    public function setUp() : void
+    public function setUp()
     {
         $application = ApplicationFactory::create();
         $command = $application->find('run');
