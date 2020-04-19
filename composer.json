@@ -8,8 +8,8 @@
         }
     },
     "require": {
-        "symfony/console": "^4.4",
-        "symfony/process": "^4.4"
+        "symfony/console": "^3.4",
+        "symfony/process": "^3.4"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
