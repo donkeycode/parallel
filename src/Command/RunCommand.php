@@ -22,7 +22,8 @@ class RunCommand extends Command
             ->addArgument('commands', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The commands list')
             ->addOption('threads', 't', InputOption::VALUE_REQUIRED, 'Number of threads to run', 10)
             ->addOption('pattern', 'p', InputOption::VALUE_REQUIRED, 'Define a command pattern (eg bin/console basic:command %s --option', '%s')
-            ;
+            ->addOption('quote', null, InputOption::VALUE_NONE, 'Add slashes and quotes, use with command pattern to keep one argument with addslashes')
+        ;
     }
 
     private function defineCommands(InputInterface $input, OutputInterface $output)
@@ -47,7 +48,7 @@ class RunCommand extends Command
     {   
         $this->defineCommands($input, $output);
 
-        $processQueue = QueueManager::buildQueueWithCommands($input->getArgument('commands'), $input->getOption('pattern'));
+        $processQueue = QueueManager::buildQueueWithCommands($input->getArgument('commands'), $input->getOption('pattern'), $input->getOption('quote'));
         $processLimit = $input->getOption('threads');
 
         /* @var Process[] $processCurrent */
@@ -61,7 +62,9 @@ class RunCommand extends Command
                     $output->writeln(trim($process->getOutput()));
 
                     if (trim($process->getErrorOutput())) {
-                        $output->getErrorOutput()->writeln('<error>ERROR</error> '.trim($process->getErrorOutput()));
+                        if (\method_exists($output, 'getErrorOutput')) {
+                            $output->getErrorOutput()->writeln('<error>ERROR</error> '.trim($process->getErrorOutput()));
+                        }
                     }
 
                     $output->writeln('<info>['.date('H:i:s').'] Finish Process: '.$commandLine.'</info>');

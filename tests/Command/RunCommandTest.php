@@ -58,6 +58,25 @@ class RunCommandTest extends TestCase
         $this->assertEquals('echo "Before" && '.self::TEST_COMMANDS[0].' && echo "After"', $startMatches[1][0], 'Pattern is respected');
     }
 
+    public function testRunWithPatternAndQuotes()
+    {
+        $this->commandTester->execute([
+            'commands' => [
+                json_encode([
+                    'fake data' => 'with risy \' quoted " strings ',
+                ]),
+            ],
+            '--threads'  => 1,
+            '--pattern'  => 'bin/console sample:command %s',
+            '--quote'   => true
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        \preg_match_all('#Start Process: (.+)#', $output, $startMatches);
+
+        $this->assertEquals('bin/console sample:command "{\"fake data\":\"with risy \\\' quoted \\\\\" strings \"}"', $startMatches[1][0], 'Pattern is respected and quoted');
+    }
+
     public function testRunMultiThread()
     {
         $this->commandTester->execute([
