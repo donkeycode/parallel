@@ -44,6 +44,20 @@ class RunCommandTest extends TestCase
         $this->assertEquals(self::TEST_COMMANDS, $endMatches[1], 'When running one thread order is conserved');
     }
 
+    public function testRunWithPattern()
+    {
+        $this->commandTester->execute([
+            'commands' => self::TEST_COMMANDS,
+            '--threads'  => 1,
+            '--pattern'  => 'echo "Before" && %s && echo "After"'
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        \preg_match_all('#Start Process: (.+)#', $output, $startMatches);
+
+        $this->assertEquals('echo "Before" && '.self::TEST_COMMANDS[0].' && echo "After"', $startMatches[1][0], 'Pattern is respected');
+    }
+
     public function testRunMultiThread()
     {
         $this->commandTester->execute([

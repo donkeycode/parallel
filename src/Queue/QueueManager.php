@@ -7,16 +7,16 @@ use Parallel\Exception\MissingCommandsException;
 
 class QueueManager
 {
-    public static function buildQueueWithCommands(array $commands) : array
+    public static function buildQueueWithCommands(array $commands, string $commandPattern) : array
     {
-        $processQueue = array_map(function ($command) {
+        $processQueue = array_map(function ($command) use ($commandPattern) {
             $command = trim($command);
 
             if ('' === $command) {
                 return null;
             }
 
-            $process = Process::fromShellCommandline($command);
+            $process = Process::fromShellCommandline(sprintf($commandPattern, $command));
             $process->setTimeout(null);
 
             return $process;

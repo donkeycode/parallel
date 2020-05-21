@@ -21,6 +21,7 @@ class RunCommand extends Command
             ->setDescription('Run multi-threaded process')
             ->addArgument('commands', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The commands list')
             ->addOption('threads', 't', InputOption::VALUE_REQUIRED, 'Number of threads to run', 10)
+            ->addOption('pattern', 'p', InputOption::VALUE_REQUIRED, 'Define a command pattern (eg bin/console basic:command %s --option', '%s')
             ;
     }
 
@@ -46,7 +47,7 @@ class RunCommand extends Command
     {   
         $this->defineCommands($input, $output);
 
-        $processQueue = QueueManager::buildQueueWithCommands($input->getArgument('commands'));
+        $processQueue = QueueManager::buildQueueWithCommands($input->getArgument('commands'), $input->getOption('pattern'));
         $processLimit = $input->getOption('threads');
 
         /* @var Process[] $processCurrent */
