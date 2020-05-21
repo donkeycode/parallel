@@ -17,7 +17,7 @@ class QueueManager
             }
 
             if ($quote) {
-                $command = \sprintf('"%s"', addslashes($command));
+                $command = sprintf('"%s"', str_replace('"', '\"', $command));
             }
 
             $process = Process::fromShellCommandline(sprintf($commandPattern, $command));
