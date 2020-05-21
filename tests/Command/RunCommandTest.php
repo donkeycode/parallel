@@ -63,7 +63,7 @@ class RunCommandTest extends TestCase
         $this->commandTester->execute([
             'commands' => [
                 json_encode([
-                    'fake data' => 'with risy \' quoted " strings ',
+                    'fake data' => 'with risy \' quoted " strings \n df',
                 ]),
             ],
             '--threads'  => 1,
@@ -74,7 +74,7 @@ class RunCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
         \preg_match_all('#Start Process: (.+)#', $output, $startMatches);
 
-        $this->assertEquals('bin/console sample:command "{\"fake data\":\"with risy \' quoted \\\" strings \"}"', $startMatches[1][0], 'Pattern is respected and quoted');
+        $this->assertEquals('bin/console sample:command "$COMMAND"', $startMatches[1][0], 'Pattern is respected and quoted');
     }
 
     public function testRunMultiThread()

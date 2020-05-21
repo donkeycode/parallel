@@ -57,13 +57,13 @@ class RunCommand extends Command
         while (count($processQueue) || count($processCurrent)) {
             // remove finished processes
             foreach ($processCurrent as $index => $process) {
-                if (!$process->isRunning()) {
-                    $commandLine = trim($process->getCommandLine());
-                    $output->writeln(trim($process->getOutput()));
+                if (!$process['process']->isRunning()) {
+                    $commandLine = trim($process['process']->getCommandLine());
+                    $output->writeln(trim($process['process']->getOutput()));
 
-                    if (trim($process->getErrorOutput())) {
+                    if (trim($process['process']->getErrorOutput())) {
                         if (\method_exists($output, 'getErrorOutput')) {
-                            $output->getErrorOutput()->writeln('<error>ERROR</error> '.trim($process->getErrorOutput()));
+                            $output->getErrorOutput()->writeln('<error>ERROR</error> '.trim($process['process']->getErrorOutput()));
                         }
                     }
 
@@ -78,8 +78,8 @@ class RunCommand extends Command
             if ($processLimit > count($processCurrent) && count($processQueue)) {
                 /** @var Process $process */
                 $process = array_shift($processQueue);
-                $output->writeln('<info>['.date('H:i:s').'] Start Process: '.$process->getCommandLine().'</info>');
-                $process->start();
+                $output->writeln('<info>['.date('H:i:s').'] Start Process: '.$process['process']->getCommandLine().'</info>');
+                $process['process']->start(null, $process['env']);
                 $processCurrent[] = $process;
             }
 

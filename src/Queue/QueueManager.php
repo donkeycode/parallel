@@ -16,18 +16,24 @@ class QueueManager
                 return null;
             }
 
-            if ($quote) {
-                $command = sprintf('"%s"', str_replace('"', '\"', $command));
+            if (!$quote) {
+                $process = Process::fromShellCommandline(sprintf($commandPattern, $command));
+            } else {
+                $process = Process::fromShellCommandline(sprintf($commandPattern, '"$COMMAND"'));
             }
-
-            $process = Process::fromShellCommandline(sprintf($commandPattern, $command));
+            
             $process->setTimeout(null);
 
-            return $process;
+            return [
+                'process' => $process,
+                'env' => [
+                    'COMMAND' => $command
+                ]
+            ];
         }, $commands);
         
         $processQueue = array_filter($processQueue, function ($entry) {
-            return $entry instanceof Process;
+            return $entry['process'] instanceof Process;
         });
 
         if (count($processQueue) == 0) {
